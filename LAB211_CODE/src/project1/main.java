@@ -65,6 +65,18 @@ public class main {
                     productList.deleteInformation();
                     goBackMenu();
                     break;
+                case 5:
+                    productList.saveToFile("src/project1/Product.txt");
+                    goBackMenu();
+                    break;
+                case 6:
+                    productList.loadFromFile("src/project1/Product.txt");
+                    
+                    productList.sortByPriceName();
+                    productList.listProduct();
+                    goBackMenu();
+                    break;
+                
             }       
     }while (cont == true && choice >= 1 && choice <= 6);
         

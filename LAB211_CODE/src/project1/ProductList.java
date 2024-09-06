@@ -160,19 +160,19 @@ public class ProductList extends ArrayList<Product> {
             if(tID != null){
                 this.get(pos).setId(tID);
             }
-            if(tID != null){
+            if(tName != null){
                 this.get(pos).setName(tName);
             }
-            if(tID != null){
+            if(tBrand != null){
                 this.get(pos).setBrandId(tBrand);
             }
-            if(tID != null){
+            if(tCategory != null){
                 this.get(pos).setCategoryId(tCategory);
             }
-            if(tID != null){
+            if(tYear != null){
                 this.get(pos).setModelYear(tYear);
             }
-            if(tID != null){
+            if(tPrice >= 0){
                 this.get(pos).setListPrice(tPrice);
             }
             
@@ -198,14 +198,85 @@ public class ProductList extends ArrayList<Product> {
                 System.out.println("Are you sure you want to delete the product with ID " + x + "? (Yes or No):");
                 String confirm = sc.nextLine().trim();
                 if (confirm.equalsIgnoreCase("yes")) {
-                    products.remove(pos);
-                    System.out.println("Product deleted successfully.");
+                    this.remove(pos);
+                    System.out.println("Deletion successfully.");
                 }
                 else {
-                    System.out.println("Product deletion canceled.");
+                    System.out.println("deletion canceled.");
                 }
             }
         }
+    public boolean saveToFile(String filename) {
+        if (this.isEmpty()) {
+            System.out.println("Empty productList");
+            return false;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+
+            for (Product x : this) {
+                bw.write(x.toString());
+                bw.newLine();
+            }
+
+            System.out.println("Done!!!");
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandWrite: " + e);
+        }
+        return false;
+    }
+    public boolean loadFromFile(String filename) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.length() < 10) {
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                Product prd = new Product();
+                
+                prd.setId(data[0]);
+                prd.setName(data[1]);
+                prd.setBrandId(data[2]);
+                prd.setCategoryId(data[3]);
+                prd.setModelYear(data[4]);
+                prd.setListPrice((int) Double.parseDouble(data[5]));
+
+                
+
+                this.add(prd);               
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandLoad: " + e);
+        }
+        return false;
+    }
+    public void listProduct(){
+        for (Product product: this){
+            System.out.println(product);
+        }
+    }
+    public static Comparator<Product> sortByPrice() {
+        return Comparator.comparingInt(Product::getListPrice);
+    }
+    public static Comparator<Product> sortByName() {
+        return Comparator.comparing(Product::getName);
+    }
+    public void sortByPriceName() {
+    Collections.sort(this, sortByPrice().thenComparing(sortByName()));
+}
+}
+
+     
     
 
 

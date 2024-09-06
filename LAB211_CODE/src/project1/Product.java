@@ -17,6 +17,11 @@ public class Product implements Comparable<Product>{
     String modelYear;
     int listPrice;
 
+    public Product() {
+    }
+    
+    
+
     public Product(String id, String name, String brandId, String categoryId, String modelYear, int listPrice) {
         this.id = id;
         this.name = name;
@@ -25,6 +30,8 @@ public class Product implements Comparable<Product>{
         this.modelYear = modelYear;
         this.listPrice = listPrice;
     }
+
+    
 
     public String getId() {
         return id;
@@ -74,12 +81,7 @@ public class Product implements Comparable<Product>{
         this.listPrice = listPrice;
     }
     public String toString() {
-    return "Product ID: " + id +
-           ", Name: " + name +
-           ", Brand: " + brandId +
-           ", Category: " + categoryId +
-           ", Model Year: " + modelYear +
-           ", Price: " + listPrice;
+    return id +", " + name + ", " + brandId +", " + categoryId +", " + modelYear +", " + listPrice;
 }
     @Override
     public int compareTo(Product other) {       
