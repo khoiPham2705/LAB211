@@ -86,6 +86,13 @@ public class RAMItem {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public String toString() {
+        return code  + "," + type + "," +  bus + "," + brand + "," + quantity + "," + production_month_year + "," + active ;
+    }
+    
+    
     
     
     
