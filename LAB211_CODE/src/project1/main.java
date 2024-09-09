@@ -45,11 +45,11 @@ public class main {
                     break;
                 case 2:
                     System.out.println("Enter product name:");
-                    String name = scanner.nextLine().toUpperCase();
+                    String name = scanner.nextLine().toUpperCase().trim();
                     List<Product> products = productList.searchName(name);
     
                    if (products.isEmpty()) {                      
-                       System.err.println("Have no any Product");
+                       System.out.println("Have no any Product");
                  } else {                    
                        for (Product product : products) {                      
                            System.out.println(product.toString());                         
@@ -70,32 +70,19 @@ public class main {
                     goBackMenu();
                     break;
                 case 6:
-                    productList.loadFromFile("src/project1/Product.txt");
-                    
+                    productList.loadFromFile("src/project1/Product.txt");                    
                     productList.sortByPriceName();
                     productList.listProduct();
                     goBackMenu();
                     break;
+                
                 
             }       
     }while (cont == true && choice >= 1 && choice <= 6);
         
         
     }
-    public static int menu(Object... options){
-        Scanner sc = new Scanner(System.in);
-        int L = options.length;
-        for (int i = 0 ; i < L ; i++){
-            System.out.println((i+1) + "-" + options[i].toString());
-        }
-        System.out.println("Choose (1.." + L + "): ");
-        return Integer.parseInt(sc.nextLine());
-    }
-    public static Object chooseOne (Object... options){
-        int pos = menu(options);
-        if (pos < 0 || pos >= options.length) return null;
-        return options[pos-1];
-    }
+    
     public static void goBackMenu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to go back to the main menu? (Yes or No):");

@@ -81,7 +81,7 @@ public class Product implements Comparable<Product>{
         this.listPrice = listPrice;
     }
     public String toString() {
-    return id +", " + name + ", " + brandId +", " + categoryId +", " + modelYear +", " + listPrice;
+    return id +"," + name + "," + brandId +"," + categoryId +"," + modelYear +"," + listPrice;
 }
     @Override
     public int compareTo(Product other) {       

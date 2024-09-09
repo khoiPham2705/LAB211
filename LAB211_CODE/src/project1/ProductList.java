@@ -30,9 +30,10 @@ public class ProductList extends ArrayList<Product> {
         System.out.print("Enter ID: ");
         String tID = sc.nextLine().trim().toUpperCase();
         if (this.searchID(tID) != -1) {
-            System.err.println("ID already exist!!!");
+            System.out.println("ID already exist");
             return;
         }
+        
 
         String tName;
         do {
@@ -76,7 +77,8 @@ public class ProductList extends ArrayList<Product> {
         return -1;
     }
 
-     public static boolean validateBrandId(String brandId, String brandFilePath) {
+    
+    public static boolean validateBrandId(String brandId, String brandFilePath) {
         return validateId(brandId, brandFilePath);
     }
 
@@ -101,6 +103,8 @@ public class ProductList extends ArrayList<Product> {
         }
         return false;
     }
+    
+    
     public static boolean isValidModelYear(String modelYear) {
         try {
             int year = Integer.parseInt(modelYear);
@@ -110,6 +114,9 @@ public class ProductList extends ArrayList<Product> {
             return false; 
         }
     }
+    
+    
+    
     
     public List<Product> searchName(String name) {
         List<Product> matchingProducts = new ArrayList<>();
@@ -121,6 +128,15 @@ public class ProductList extends ArrayList<Product> {
         Collections.sort(matchingProducts);
         return matchingProducts;
     }
+    
+    
+    
+    
+    
+    public static boolean isBlank(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+    
     public void updateInformation(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter ID:");
@@ -133,48 +149,57 @@ public class ProductList extends ArrayList<Product> {
         }
     
         else{
-            String tID;
             System.out.print("Enter ID: ");
-            tID = sc.nextLine().trim();
+            String tID = sc.nextLine().trim().toUpperCase();
+            if (this.searchID(tID) != -1) {
+                System.out.println("ID already exist!!!");
+                return;
+        }
             
             String tName;
-            System.out.print("Enter name: ");
+            System.out.print("Enter Name: ");
             tName = sc.nextLine().trim();
             
             String tBrand;
+        do {
             System.out.print("Enter brand ID: ");
             tBrand = sc.nextLine().trim();
-            
-            String tCategory;
-            System.out.print("Enter Category ID: ");
-            tCategory = sc.nextLine().trim();
-            
-            String tYear;
-            System.out.print("Enter model year: ");
-            tYear = sc.nextLine().trim();
-            
-            int tPrice;
-            System.out.print("Enter price: ");
+        } while (validateBrandId(tBrand, "src/project1/01_Brand.txt") == true);
+
+        String tCategory;
+        do {
+            System.out.print("Enter category ID: ");
+            tCategory = sc.nextLine().trim();;
+        } while (validateCategoryId(tCategory, "src/project1/01_Category.txt") == true);
+        
+        String tYear;
+        do{
+            System.out.print("Enter model year:");
+            tYear = sc.nextLine().trim();;
+        } while ( isValidModelYear (tYear) == false && isBlank(tYear)== false);
+        
+        int tPrice;
+        do{
+            System.out.print("Enter list price: ");
             tPrice = sc.nextInt();
+        } while (tPrice < 0);
             
-            if(tID != null){
+            if(isBlank(tID) == false){
                 this.get(pos).setId(tID);
             }
-            if(tName != null){
+            if(isBlank(tName)== false){
                 this.get(pos).setName(tName);
             }
-            if(tBrand != null){
+            if(isBlank(tBrand)== false){
                 this.get(pos).setBrandId(tBrand);
             }
-            if(tCategory != null){
+            if(isBlank(tCategory)== false){
                 this.get(pos).setCategoryId(tCategory);
             }
-            if(tYear != null){
+            if(isBlank(tYear)== false){
                 this.get(pos).setModelYear(tYear);
             }
-            if(tPrice >= 0){
-                this.get(pos).setListPrice(tPrice);
-            }
+            updatePrice(tPrice,pos);
             
             System.out.println("Update Success");
             
@@ -184,6 +209,12 @@ public class ProductList extends ArrayList<Product> {
         }
         
 }
+    public void updatePrice(Integer newPrice, int pos) {
+        if (newPrice != null) {
+            this.get(pos).setListPrice(newPrice); 
+        }
+        
+    }
     public  void deleteInformation(){
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter ID:");
@@ -202,7 +233,7 @@ public class ProductList extends ArrayList<Product> {
                     System.out.println("Deletion successfully.");
                 }
                 else {
-                    System.out.println("deletion canceled.");
+                    System.out.println("Deletion canceled.");
                 }
             }
         }
@@ -265,16 +296,16 @@ public class ProductList extends ArrayList<Product> {
             System.out.println(product);
         }
     }
-    public static Comparator<Product> sortByPrice() {
-        return Comparator.comparingInt(Product::getListPrice);
+    public Comparator<Product> sortByPriceDescending() {
+        return Comparator.comparingInt(Product::getListPrice).reversed();
     }
-    public static Comparator<Product> sortByName() {
+    public Comparator<Product> sortByName() {
         return Comparator.comparing(Product::getName);
     }
     public void sortByPriceName() {
-    Collections.sort(this, sortByPrice().thenComparing(sortByName()));
+    Collections.sort(this, sortByPriceDescending().thenComparing(sortByName()));
 }
-}
+
 
      
     
