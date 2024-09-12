@@ -14,14 +14,14 @@ public class RAMItem {
     String type;
     String bus;
     String brand;
-    String quantity;
+    int quantity;
     String production_month_year;
     boolean active;
 
     public RAMItem() {
     }
 
-    public RAMItem(String code, String type, String bus, String brand, String quantity, String production_month_year, boolean active) {
+    public RAMItem(String code, String type, String bus, String brand, int quantity, String production_month_year, boolean active) {
         this.code = code;
         this.type = type;
         this.bus = bus;
@@ -47,7 +47,7 @@ public class RAMItem {
         return brand;
     }
 
-    public String getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
@@ -75,7 +75,7 @@ public class RAMItem {
         this.brand = brand;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
