@@ -22,6 +22,9 @@ public class RAMManagementSystem {
         int choice;
         String ch;
         RAMList RAMList = new RAMList();
+        RAMList.loadFromFile("src/project2/RAMModules.dat");
+        
+        
 
         do {
 
@@ -31,14 +34,15 @@ public class RAMManagementSystem {
             System.out.println("3. Update Item Information");
             System.out.println("4. Delete Item");
             System.out.println("5. Show All Active Items");
-            System.out.println("6.  Store Data to Files");
+            System.out.println("6. Store Data to Files");
             System.out.println("7.Exit the program");
             System.out.println("**************");
             choice = sc.nextInt();
             sc.nextLine();// Consume the newline left by nextInt()
-
+            RAMList.loadRAMData("src/project2/RAMItem.txt");
             switch (choice) {
                 case 1:
+                    
                     RAMList.addRAMItem();
                     boolean cont2 = true;
                     do {
@@ -91,6 +95,9 @@ public class RAMManagementSystem {
                     
                     break;
                 case 6:
+                    RAMList.saveToFile("src/project2/RAMModules.dat");
+                    break;
+                    
                 case 7:
                     exitMenu();
                 
@@ -102,11 +109,9 @@ public class RAMManagementSystem {
 
     public static void exitMenu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Do you want to go back to the main menu? (Yes or No):");
-        String ch = sc.nextLine().trim();
-        if (ch.equalsIgnoreCase("no")) {
-            cont = false;
-        }
+        
+        
+        cont = false;
     }
     
 
