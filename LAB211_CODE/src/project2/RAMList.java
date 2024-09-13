@@ -17,9 +17,9 @@ import java.time.Year;
  *
  * @author DELL
  */
-public class RAMList extends ArrayList<RAMItem> {
+public class RAMList extends ArrayList<RAMItem>  {
 
-    Scanner sc = new Scanner(System.in);
+    
     ArrayList<RAMItem> rList;
 
     public RAMList() {
@@ -51,7 +51,6 @@ public class RAMList extends ArrayList<RAMItem> {
             System.out.println(type);
         }
     }
-
     // Hiển thị các speed hợp lệ cho một loại RAM đã chọn
     public void displaySpeedsForType(String type) {
         List<String> speeds = ramData.get(type);
@@ -70,9 +69,10 @@ public class RAMList extends ArrayList<RAMItem> {
         }
         return false;
     }
+    
 
     public void addRAMItem() {
-
+        Scanner sc = new Scanner(System.in);
         String type;
         String code;
         do {
@@ -105,10 +105,10 @@ public class RAMList extends ArrayList<RAMItem> {
             displaySpeedsForType(type);
             System.out.print("Enter bus speed: ");
             speed = sc.nextLine();
-            if (isNumeric(speed) == false || validateSpeedForType(type, speed) == false) {
+            if (isNumeric(speed) == false || validateSpeedForType(type,speed) == false) {
                 System.out.println("Invalid speed");
             }
-        } while (isNumeric(speed) == false || validateSpeedForType(type, speed) == false);
+        } while (isNumeric(speed) == false || validateSpeedForType(type,speed) == false);
         String bus = speed + MHz;
 
         String brand;
@@ -217,7 +217,6 @@ public class RAMList extends ArrayList<RAMItem> {
         }
         return false;
     }
-
     private static boolean validateSpeed(String speed, String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
@@ -292,6 +291,7 @@ public class RAMList extends ArrayList<RAMItem> {
     }
 
     public void updateInformation() {
+        Scanner sc = new Scanner(System.in);
         String code;
         String type;
         String ramtype;
@@ -389,6 +389,7 @@ public class RAMList extends ArrayList<RAMItem> {
     }
 
     public void deleteInformation() {
+        Scanner sc = new Scanner(System.in);
         String code;
         String type;
         String ramtype;
@@ -426,29 +427,32 @@ public class RAMList extends ArrayList<RAMItem> {
             }
         }
     }
-
     // Lưu dữ liệu vào file nhị phân
-    public void saveToFile(String fileName) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(ramData);
-            System.out.println("RAM data saved successfully.");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void saveActiveItemsToFile(String fileName) {
+    List<RAMItem> activeItems = new ArrayList<>();
+    for (RAMItem item : this) {
+        if (item.isActive()) { // Assuming isActive() returns boolean
+            activeItems.add(item);
         }
     }
+    
+    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        oos.writeObject(activeItems); // Write only active items
+        System.out.println("Active RAM data saved successfully.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
     // Tải dữ liệu từ file nhị phân
-    public void loadFromFile(String fileName) {
+    public void loadActiveItemsFromFile(String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            ramData = (Map<String, List<String>>) ois.readObject();
-            System.out.println("RAM data loaded successfully.");
+            List<RAMItem> loadedItems = (List<RAMItem>) ois.readObject();
+            this.clear();
+            this.addAll(loadedItems);
+            System.out.println("Active RAM data loaded successfully.");
         } catch (FileNotFoundException e) {
-            System.out.println("File not found, loading data from the text file.");
-            // Em có thể thêm code để xử lý việc tải từ file văn bản nếu cần
-        } catch (EOFException e) {
-            System.out.println("File is empty, no data to load.");
-            // Khởi tạo ramData nếu cần
-            ramData = new HashMap<>();
+            System.out.println("File not found, please ensure the file exists.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

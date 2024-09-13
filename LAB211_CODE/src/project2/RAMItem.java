@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package project2;
+import java.io.Serializable;
 
 /**
  *
  * @author DELL
  */
-public class RAMItem {
+public class RAMItem implements Serializable {
+    private static final long serialVersionUID = 1L;
     String code;
     String type;
     String bus;

@@ -22,7 +22,8 @@ public class RAMManagementSystem {
         int choice;
         String ch;
         RAMList RAMList = new RAMList();
-        RAMList.loadFromFile("src/project2/RAMModules.dat");
+        RAMList.loadActiveItemsFromFile("src/project2/RAMModules.dat");
+        
         
         
 
@@ -95,7 +96,7 @@ public class RAMManagementSystem {
                     
                     break;
                 case 6:
-                    RAMList.saveToFile("src/project2/RAMModules.dat");
+                    RAMList.saveActiveItemsToFile("src/project2/RAMModules.dat");
                     break;
                     
                 case 7:
