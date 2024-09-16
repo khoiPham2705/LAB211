@@ -36,7 +36,7 @@ public class RAMManagementSystem {
             System.out.println("4. Delete Item");
             System.out.println("5. Show All Active Items");
             System.out.println("6. Store Data to Files");
-            System.out.println("7.Exit the program");
+            System.out.println("7. Exit the program");
             System.out.println("**************");
             choice = sc.nextInt();
             sc.nextLine();// Consume the newline left by nextInt()
@@ -101,6 +101,7 @@ public class RAMManagementSystem {
                     
                 case 7:
                     exitMenu();
+                    
                 
                 
             }
@@ -113,6 +114,7 @@ public class RAMManagementSystem {
         
         
         cont = false;
+        System.out.println("Good bye");
     }
     
 

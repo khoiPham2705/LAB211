@@ -17,9 +17,8 @@ import java.time.Year;
  *
  * @author DELL
  */
-public class RAMList extends ArrayList<RAMItem>  {
+public class RAMList extends ArrayList<RAMItem> {
 
-    
     ArrayList<RAMItem> rList;
 
     public RAMList() {
@@ -51,6 +50,7 @@ public class RAMList extends ArrayList<RAMItem>  {
             System.out.println(type);
         }
     }
+
     // Hiển thị các speed hợp lệ cho một loại RAM đã chọn
     public void displaySpeedsForType(String type) {
         List<String> speeds = ramData.get(type);
@@ -69,7 +69,6 @@ public class RAMList extends ArrayList<RAMItem>  {
         }
         return false;
     }
-    
 
     public void addRAMItem() {
         Scanner sc = new Scanner(System.in);
@@ -105,10 +104,10 @@ public class RAMList extends ArrayList<RAMItem>  {
             displaySpeedsForType(type);
             System.out.print("Enter bus speed: ");
             speed = sc.nextLine();
-            if (isNumeric(speed) == false || validateSpeedForType(type,speed) == false) {
+            if (isNumeric(speed) == false || validateSpeedForType(type, speed) == false) {
                 System.out.println("Invalid speed");
             }
-        } while (isNumeric(speed) == false || validateSpeedForType(type,speed) == false);
+        } while (isNumeric(speed) == false || validateSpeedForType(type, speed) == false);
         String bus = speed + MHz;
 
         String brand;
@@ -217,6 +216,7 @@ public class RAMList extends ArrayList<RAMItem>  {
         }
         return false;
     }
+
     private static boolean validateSpeed(String speed, String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
@@ -297,6 +297,7 @@ public class RAMList extends ArrayList<RAMItem>  {
         String ramtype;
         ;
         do {
+
             System.out.println("Enter code:");
             code = sc.nextLine().trim().toUpperCase();
             String[] tmp = code.split("-");
@@ -314,6 +315,8 @@ public class RAMList extends ArrayList<RAMItem>  {
         } else {
             do {
                 do {
+                    displayRAMTypes();
+
                     System.out.print("Enter type: ");
                     type = sc.nextLine().trim().toUpperCase();
                     if (validateType(type, "src/project2/RAMItem.txt") == false) {
@@ -336,22 +339,29 @@ public class RAMList extends ArrayList<RAMItem>  {
 
             String speed;
             String MHz = "MHz";
-            System.out.println("Enter bus speed: ");
-            speed = sc.nextLine();
+
+            do {
+                displaySpeedsForType(type);
+                System.out.print("Enter bus speed: ");
+                speed = sc.nextLine();
+                if (isNumeric(speed) == false || validateSpeedForType(type, speed) == false) {
+                    System.out.println("Invalid speed");
+                }
+            } while (isNumeric(speed) == false || validateSpeedForType(type, speed) == false);
             String bus = speed + MHz;
 
             String brand;
-            System.out.println("Enter brand: ");
+            System.out.print("Enter brand: ");
             brand = sc.nextLine().trim();
 
             int quantity;
-            System.out.println("Enter quantity: ");
+            System.out.print("Enter quantity: ");
             quantity = sc.nextInt();
             sc.nextLine();
 
             String production_month_year;
             do {
-                System.out.println("Enter production date(Month_Year): ");
+                System.out.print("Enter production date(Month_Year): ");
                 production_month_year = sc.nextLine();
                 if (validateMonthYear(production_month_year) == false) {
                     System.out.println("invalid production date!!!");
@@ -427,22 +437,23 @@ public class RAMList extends ArrayList<RAMItem>  {
             }
         }
     }
+
     // Lưu dữ liệu vào file nhị phân
     public void saveActiveItemsToFile(String fileName) {
-    List<RAMItem> activeItems = new ArrayList<>();
-    for (RAMItem item : this) {
-        if (item.isActive()) { // Assuming isActive() returns boolean
-            activeItems.add(item);
+        List<RAMItem> activeItems = new ArrayList<>();
+        for (RAMItem item : this) {
+            if (item.isActive()) { // Assuming isActive() returns boolean
+                activeItems.add(item);
+            }
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(activeItems); // Write only active items
+            System.out.println("Active RAM data saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    
-    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-        oos.writeObject(activeItems); // Write only active items
-        System.out.println("Active RAM data saved successfully.");
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
 
     // Tải dữ liệu từ file nhị phân
     public void loadActiveItemsFromFile(String fileName) {
