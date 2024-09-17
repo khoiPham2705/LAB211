@@ -9,10 +9,6 @@ package project3;
  *
  * @author DELL
  */
-public class Learner {
-    String code;
-    String name;
-    String dateOfBirth;
-    String score;
-    String course;
+public class CourseList {
+    
 }

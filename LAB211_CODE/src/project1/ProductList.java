@@ -45,13 +45,13 @@ public class ProductList extends ArrayList<Product> {
         do {
             System.out.print("Enter brand ID: ");
             tBrand = sc.nextLine().trim();
-        } while (validateBrandId(tBrand, "src/project1/01_Brand.txt") == true);
+        } while (validateBrandId(tBrand, "src/project1/01_Brand.txt") == false);
 
         String tCategory;
         do {
             System.out.print("Enter category ID: ");
             tCategory = sc.nextLine().trim();;
-        } while (validateCategoryId(tCategory, "src/project1/01_Category.txt") == true);
+        } while (validateCategoryId(tCategory, "src/project1/01_Category.txt") == false);
         
         String tYear;
         do{
@@ -164,13 +164,13 @@ public class ProductList extends ArrayList<Product> {
         do {
             System.out.print("Enter brand ID: ");
             tBrand = sc.nextLine().trim();
-        } while (validateBrandId(tBrand, "src/project1/01_Brand.txt") == true);
+        } while (validateBrandId(tBrand, "src/project1/01_Brand.txt") == false);
 
         String tCategory;
         do {
             System.out.print("Enter category ID: ");
             tCategory = sc.nextLine().trim();;
-        } while (validateCategoryId(tCategory, "src/project1/01_Category.txt") == true);
+        } while (validateCategoryId(tCategory, "src/project1/01_Category.txt") == false);
         
         String tYear;
         do{
