@@ -69,7 +69,7 @@ public class Topic {
 
     @Override
     public String toString() {
-        return code + "," + name + "," + type + "," + title + "," + duration + '}';
+        return code + "," + name + "," + type + "," + title + "," + duration ;
     }
     
     

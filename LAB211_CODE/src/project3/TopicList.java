@@ -39,11 +39,11 @@ public class TopicList extends ArrayList<Topic> {
         do {
             System.out.print("Enter type(long or short)");
             type = sc.nextLine().trim().toLowerCase();
-        }  while (!type.equals("long") && !type.equals("short"));
+        }  while (!type.equals("long") && !type.equals("short") && !type.isEmpty() == false);
 
 
         String title;
-        System.out.print("Enter title");
+        System.out.print("Enter title: ");
         title = sc.nextLine();
 
         String duration;
@@ -123,7 +123,7 @@ public class TopicList extends ArrayList<Topic> {
             return;
         }
         else{
-            System.out.println("Are you sure you want to delete the product with Code " + code + "? (Yes or No):");
+            System.out.println("Are you sure you want to delete the topic with Code " + code + "? (Yes or No):");
             String confirm = sc.nextLine().trim();
             if (confirm.equalsIgnoreCase("yes")) {
                 this.remove(pos);

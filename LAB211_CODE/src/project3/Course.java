@@ -5,6 +5,8 @@
  */
 package project3;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author DELL
@@ -18,11 +20,13 @@ public class Course {
     String endDate;
     String tuitionFee;
     String topic;
+    public int maxLearners;
+    public ArrayList<Learner> learners;
 
     public Course() {
     }
 
-    public Course(String code, String name, String type, String title, String beginDate, String endDate, String tuitionFee, String topic) {
+    public Course(String code, String name, String type, String title, String beginDate, String endDate, String tuitionFee, String topic, int maxLearners) {
         this.code = code;
         this.name = name;
         this.type = type;
@@ -31,6 +35,15 @@ public class Course {
         this.endDate = endDate;
         this.tuitionFee = tuitionFee;
         this.topic = topic;
+        this.maxLearners = maxLearners;
+        this.learners = new ArrayList<>(); // Khởi tạo danh sách học viên
+    }
+    public int getMaxLearners() {
+        return maxLearners;
+    }
+
+    public ArrayList<Learner> getLearners() {
+        return learners;
     }
 
     public String getCode() {
@@ -95,6 +108,19 @@ public class Course {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    @Override
+    public String toString() {
+        return  code + "," + name + "," + type + "," + title + "," + beginDate + "," + endDate + "," + tuitionFee + "," + topic +  "," +maxLearners ;
+    }
+    public void addLearner(Learner learner) {
+        if (learners.size() < maxLearners) {
+            learners.add(learner);
+            System.out.println("Learner added to the course.");
+        } else {
+            System.out.println("The course has reached the maximum number of learners.");
+        }
     }
     
 }
