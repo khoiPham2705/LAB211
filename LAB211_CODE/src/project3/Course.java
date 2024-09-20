@@ -38,7 +38,7 @@ public class Course {
         this.maxLearners = maxLearners;
         this.learners = new ArrayList<>(); // Khởi tạo danh sách học viên
     }
-    public int getMaxLearners() {
+    public  int getMaxLearners() {
         return maxLearners;
     }
 
@@ -114,13 +114,6 @@ public class Course {
     public String toString() {
         return  code + "," + name + "," + type + "," + title + "," + beginDate + "," + endDate + "," + tuitionFee + "," + topic +  "," +maxLearners ;
     }
-    public void addLearner(Learner learner) {
-        if (learners.size() < maxLearners) {
-            learners.add(learner);
-            System.out.println("Learner added to the course.");
-        } else {
-            System.out.println("The course has reached the maximum number of learners.");
-        }
-    }
+    
     
 }

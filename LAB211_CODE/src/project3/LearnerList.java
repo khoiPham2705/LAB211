@@ -22,54 +22,51 @@ public class LearnerList extends ArrayList<Learner> {
     }
 
     public void addLearnerToCourse(CourseList courseList) {
-        // Hiển thị danh sách các khóa học
-        System.out.println("Available courses:");
-        courseList.listCourse();
+    // Hiển thị danh sách các khóa học
+    System.out.println("Available courses:");
+    courseList.listCourse();
 
-        // Nhập mã khóa học
-        System.out.print("Enter course code to add learner: ");
-        String courseCode = sc.nextLine().trim().toUpperCase();
-        int courseIndex = courseList.searchCode(courseCode);
+    // Nhập mã khóa học
+    System.out.print("Enter course code to add learner: ");
+    String courseCode = sc.nextLine().trim().toUpperCase();
+    int courseIndex = courseList.searchCode(courseCode);
 
-        // Kiểm tra mã khóa học có tồn tại không
-        if (courseIndex == -1) {
-            System.out.println("Invalid course code.");
-            return;
-        }
-
-        Course selectedCourse = courseList.get(courseIndex);
-
-        // Kiểm tra giới hạn học viên
-        if (selectedCourse.getLearners().size() >= selectedCourse.getMaxLearners()) {
-            System.out.println("The course has reached its maximum capacity.");
-            return;
-        }
-
-        // Submenu để thêm học viên
-        // Nhập thông tin học viên
-        System.out.print("Enter learner code: ");
-        String code = sc.nextLine().trim();
-        System.out.print("Enter learner name: ");
-        String name = sc.nextLine().trim();
-        String dateOfBirth;
-        do {
-            System.out.print("Enter learner date of birth: ");
-            dateOfBirth = sc.nextLine();
-        } while (validateDay(dateOfBirth) == false);
-
-        int number;
-        String score;
-        do {
-            System.out.print("Enter score (0-10): ");
-            score = sc.nextLine();
-        } while (!isNumeric(score) || (number = Integer.parseInt(score)) < 0 || number > 10);
-
-        // Tạo đối tượng Learner và thêm vào danh sách của khóa học
-        Learner newLearner = new Learner(code, name, dateOfBirth, score, courseCode);
-        selectedCourse.addLearner(newLearner);
-        System.out.println("Learner added successfully!");
-
+    // Kiểm tra mã khóa học có tồn tại không
+    if (courseIndex == -1) {
+        System.out.println("Invalid course code.");
+        return;
     }
+
+    Course selectedCourse = courseList.get(courseIndex);
+
+    // Kiểm tra giới hạn học viên
+    if (selectedCourse.getLearners().size() >= selectedCourse.getMaxLearners()) {
+        System.out.println("The course has reached its maximum capacity.");
+        return;
+    }
+
+    // Nhập thông tin học viên
+    System.out.print("Enter learner code: ");
+    String code = sc.nextLine().trim();
+    System.out.print("Enter learner name: ");
+    String name = sc.nextLine().trim();
+    String dateOfBirth;
+    do {
+        System.out.print("Enter learner date of birth: ");
+        dateOfBirth = sc.nextLine();
+    } while (!validateDay(dateOfBirth));
+
+    String score;
+    int number;
+    do {
+        System.out.print("Enter score (0-10): ");
+        score = sc.nextLine();
+    } while (!isNumeric(score) || (number = Integer.parseInt(score)) < 0 || number > 10);
+
+    // Thêm học viên vào danh sách
+    selectedCourse.learners.add(new Learner(code, name, dateOfBirth, score, courseCode));
+    System.out.println("Learner added to the course.");
+}
 
     public static boolean validateDay(String date) {
         // Tách chuỗi theo dấu "/"

@@ -122,10 +122,11 @@ public class CourseProgramManagement {
                         case 1:
                             boolean addOrNot2;
                             do {
-                                learnerList.addLearnerToCourse(courseList);
-                                System.out.println("Do u want to continue to add Learner? ( Yes or No )");
-                                String answer1 = sc.nextLine();
                                 sc.nextLine();
+                                learnerList.addLearnerToCourse(courseList);
+                                System.out.print("Do u want to continue to add Learner? ( Yes or No )");
+                                String answer1 = sc.nextLine();
+                                
                                 addOrNot2 = answer1.equals("yes");
                             } while (addOrNot2);
                             break;
