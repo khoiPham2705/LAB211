@@ -12,6 +12,11 @@ package project3;
  */
 import java.util.ArrayList;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class CourseList extends ArrayList<Course> {
@@ -35,6 +40,7 @@ public class CourseList extends ArrayList<Course> {
     public void addCourse() {
         String code;
         do {
+            sc.nextLine();
             System.out.print("Enter code: ");
             code = sc.nextLine().trim().toUpperCase();
             if (searchCode(code) != -1) { // Nếu tìm thấy code, thông báo code đã tồn tại
@@ -321,5 +327,125 @@ public class CourseList extends ArrayList<Course> {
         for (Course course : this) {
             System.out.println(course);
         }
+    }
+    
+    public void displayCourses() {
+        // Sắp xếp danh sách khóa học theo ngày bắt đầu
+        this.sort(Comparator.comparing(Course::getBeginDate));
+
+        // Duyệt qua danh sách khóa học
+        for (Course course : this) {
+            System.out.println("=== Course Information ===");
+            System.out.println("Course Code: " + course.getCode());
+            System.out.println("Course Name: " + course.getName());
+            System.out.println("Begin Date: " + course.getBeginDate());
+            System.out.println("End Date: " + course.getEndDate());
+            System.out.println("Course Type: " + course.getType());
+
+            // Tính số lượng học viên đậu và rớt
+            int passCount = 0, failCount = 0;
+            for (Learner learner : course.getLearners()) {
+                if (Integer.parseInt(learner.getScore()) >= 5) {
+                    passCount++;
+                } else {
+                    failCount++;
+                }
+            }
+
+            System.out.println("Number of learners passed: " + passCount);
+            System.out.println("Number of learners failed: " + failCount);
+
+            // Tính tổng thu nhập
+            double income = course.getLearners().size() * Double.parseDouble(course.getTuitionFee());
+            System.out.println("Total income: $" + income);
+            System.out.println("-------------------------------");
+        }
+    }
+    public void searchByTopic(String topic) {
+        List<Course> matchingTopiCourse = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++) {
+            if (this.get(i).getTopic().equalsIgnoreCase(topic)) {
+                matchingTopiCourse.add(this.get(i));
+            }
+        }
+        if (matchingTopiCourse.isEmpty()) {
+            System.out.println("No Topic found with the specified type.");
+        } else {
+            for (Course x : matchingTopiCourse) {
+                System.out.println(x.toString());
+            }
+        }
+    }
+    public void searchByName(String name) {
+        List<Course> matchingNameCourse = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++) {
+            if (this.get(i).getName().contains(name)) {
+                matchingNameCourse.add(this.get(i));
+            }
+        }
+        if (matchingNameCourse.isEmpty()) {
+            System.out.println("No Topic found with the specified type.");
+        } else {
+            for (Course x : matchingNameCourse) {
+                System.out.println(x.toString());
+            }
+        }
+    }
+    public boolean saveToFile(String filename) {
+        if (this.isEmpty()) {
+            System.out.println("Empty courseList");
+            return false;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+
+            for (Course x : this) {
+                bw.write(x.toString());
+                bw.newLine();
+            }
+
+            System.out.println("Done!!!");
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandWrite: " + e);
+        }
+        return false;
+    }
+    public boolean loadFromFile(String filename) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.length() < 10) {
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                Course prd = new Course();
+                
+                prd.setCode(data[0]);
+                prd.setName(data[1]);
+                prd.setTitle(data[2]);
+                prd.setBeginDate(data[3]);
+                prd.setEndDate(data[4]);
+                prd.setTuitionFee(data[5]);
+                prd.setTopic(data[6]);
+                prd.setMaxLearners((int) Double.parseDouble(data[7]));
+                
+
+                
+
+                this.add(prd);               
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandLoad: " + e);
+        }
+        return false;
     }
 }

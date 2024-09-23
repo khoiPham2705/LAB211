@@ -110,6 +110,13 @@ public class Course {
         this.topic = topic;
     }
 
+    public void setMaxLearners(int maxLearners) {
+        this.maxLearners = maxLearners;
+    }
+
+    
+    
+
     @Override
     public String toString() {
         return  code + "," + name + "," + type + "," + title + "," + beginDate + "," + endDate + "," + tuitionFee + "," + topic +  "," +maxLearners ;

@@ -9,6 +9,11 @@ package project3;
  *
  * @author DELL
  */
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -140,4 +145,78 @@ public class TopicList extends ArrayList<Topic> {
             System.out.println(topic);
         }
     }
+     
+     
+     
+     
+     public void searchByName(String name) {
+        List<Topic> matchingNameTopic = new ArrayList<>();
+        for (int i = 0; i < this.size(); i++) {
+            if (this.get(i).getName().contains(name)) {
+                matchingNameTopic.add(this.get(i));
+            }
+        }
+        if (matchingNameTopic.isEmpty()) {
+            System.out.println("No Topic found with the specified type.");
+        } else {
+            for (Topic x : matchingNameTopic) {
+                System.out.println(x.toString());
+            }
+        }
+    }
+     public boolean saveToFile(String filename) {
+        if (this.isEmpty()) {
+            System.out.println("Empty topicList");
+            return false;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+
+            for (Topic x : this) {
+                bw.write(x.toString());
+                bw.newLine();
+            }
+
+            System.out.println("Done!!!");
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandWrite: " + e);
+        }
+        return false;
+    }
+    public boolean loadFromFile(String filename) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.length() < 10) {
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                Topic prd = new Topic();
+                
+                prd.setCode(data[0]);
+                prd.setName(data[1]);
+                prd.setType(data[2]);
+                prd.setTitle(data[3]);
+                prd.setDuration(data[4]);
+                
+
+                
+
+                this.add(prd);               
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandLoad: " + e);
+        }
+        return false;
+    }
+     
 }

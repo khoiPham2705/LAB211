@@ -38,27 +38,22 @@ public class RAMManagementSystem {
             System.out.println("6. Store Data to Files");
             System.out.println("7. Exit the program");
             System.out.println("**************");
+            System.out.print("Enter your option: ");
             choice = sc.nextInt();
             sc.nextLine();// Consume the newline left by nextInt()
             RAMList.loadRAMData("src/project2/RAMItem.txt");
             switch (choice) {
                 case 1:
+                    boolean addOrNot;
+                            do {
+                                RAMList.addRAMItem();
+                                System.out.println("Do u want to continue to add ramItem? ( Yes or No )");
+                                String answer1 = sc.nextLine();
+                                addOrNot = answer1.equals("yes");
+                            } while (addOrNot);
+                            break;
                     
-                    RAMList.addRAMItem();
-                    boolean cont2 = true;
-                    do {
-                        System.out.println("Do u want to continue adding more modules or return to the main menu(Yes or no)");
-                        String choice2 = sc.nextLine().trim().toLowerCase();
-                        if (choice2.equalsIgnoreCase("Yes")) {
-                            RAMList.addRAMItem();
-                            
-                        } else {
-                            
-                            cont2 = false;
-                        }
-                        
-                    }while(cont2 == true);
-                    break;
+                    
                 
                 case 2:
                     String choicec2;

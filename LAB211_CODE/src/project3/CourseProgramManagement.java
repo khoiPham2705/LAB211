@@ -104,6 +104,7 @@ public class CourseProgramManagement {
                             courseList.deleteCourse();
                             break;
                         case 4:
+                            int learnerCount = learnerList.size();
                             courseList.listCourse();
                             break;
                         default:
@@ -134,16 +135,47 @@ public class CourseProgramManagement {
                             learnerList.updateLearnerScore();
                             break;
                         case 3:
+                            
+                            
                             learnerList.displayAllLearnersInfo();
                     }
                     break;
 
                 case 4:
-                    System.out.println("Search Topic is under development.");
+                    System.out.println("1. Search topic");
+                    System.out.println("2. Search course");
+                    System.out.println("Enter your option: ");
+                    int choice4 = sc.nextInt();
+                    switch(choice4){
+                        case 1:
+                            
+                            System.out.print("Enter name: ");
+                            String name = sc.nextLine().trim();
+                            
+                            topicList.searchByName(name);
+                        case 2:
+                            System.out.println("Search By Topic or Name");
+                            System.out.print("Enter your option: ");
+                            String choice5 = sc.nextLine().trim();
+                            if(choice5.equalsIgnoreCase("topic")){
+                                System.out.print("Enter topic u want to find: ");
+                                String foundTopic = sc.nextLine().trim();
+                                courseList.searchByTopic(foundTopic);
+                            }
+                            else if(choice5.equalsIgnoreCase("name")){
+                                System.out.print("Enter name u want to find: ");
+                                String foundName = sc.nextLine().trim();
+                                courseList.searchByName(foundName);
+                            }
+                            
+                    }
                     break;
 
                 case 5:
-                    System.out.println("Save Topics, Courses and Learner to file is under development.");
+                    topicList.saveToFile("src/project3/topicData.txt");
+                    courseList.saveToFile("src/project3/courseData.txt");
+                    learnerList.saveToFile("src/project3/learnerData.txt");
+                    System.out.println("Save Successfully");
                     break;
 
                 case 6:

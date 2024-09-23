@@ -11,6 +11,12 @@ package project3;
  */
 import java.util.ArrayList;
 import java.util.*;
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class LearnerList extends ArrayList<Learner> {
 
@@ -209,5 +215,60 @@ public class LearnerList extends ArrayList<Learner> {
         int scoreValue = Integer.parseInt(score);
         return (double) scoreValue; // Điểm trực tiếp là GPA (0-10)
     }
+    public boolean saveToFile(String filename) {
+        if (this.isEmpty()) {
+            System.out.println("Empty productList");
+            return false;
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+
+            for (Learner x : this) {
+                bw.write(x.toString());
+                bw.newLine();
+            }
+
+            System.out.println("Done!!!");
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error writing file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandWrite: " + e);
+        }
+        return false;
+    }
+    public boolean loadFromFile(String filename) {
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.length() < 10) {
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                Learner prd = new Learner();
+                
+                prd.setCode(data[0]);
+                prd.setName(data[1]);
+                prd.setDateOfBirth(data[2]);
+                prd.setScore(data[3]);
+                prd.setCourse(data[4]);
+                
+
+                
+
+                this.add(prd);               
+            }
+            return true;
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + filename);
+        } catch (Exception e) {
+            System.err.println("ErrBrandLoad: " + e);
+        }
+        return false;
+    }
+    
 
 }
