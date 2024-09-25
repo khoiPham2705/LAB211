@@ -22,13 +22,31 @@ public class CourseProgramManagement {
         TopicList topicList = new TopicList();  // Khởi tạo đối tượng TopicList
         CourseList courseList = new CourseList(topicList);
         LearnerList learnerList = new LearnerList();
+        
+        topicList.loadFromFile("src/project3/topicData.txt");
+        courseList.loadFromFile("src/project3/courseData.txt");
+        learnerList.loadFromFile("src/project3/learnerData.txt");
+        
+        
+        for(Course course : courseList){
+            for(Learner learner : learnerList){
+                if(learner.getCourse().equals(course.getCode())){
+                    course.addLearnerToCourse(learner);
+                }
+            }
+        }
+        
+        
+        
+       
+        
 
         do {
             System.out.println("*** MENU ****");
             System.out.println("1. Manage Topic");
             System.out.println("2. Manage Course");
             System.out.println("3. Manage Learner");
-            System.out.println("4. Search Topic");
+            System.out.println("4. Search Information ");
             System.out.println("5. Save Topics, Courses and Learner to file.");
             System.out.println("6. Exit");
             System.out.println("**************");
@@ -46,7 +64,7 @@ public class CourseProgramManagement {
                     System.out.println("4. Display All Topics");
                     System.out.print("Please select a topic management option: ");
                     topicChoice = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    sc.nextLine(); 
 
                     switch (topicChoice) {
                         case 1:
@@ -84,7 +102,7 @@ public class CourseProgramManagement {
                     System.out.println("4. Display Course Information");
                     System.out.print("Please select an option: ");
                     courseChoice = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    sc.nextLine();
 
                     switch (courseChoice) {
                         case 1:
@@ -103,9 +121,8 @@ public class CourseProgramManagement {
                         case 3:
                             courseList.deleteCourse();
                             break;
-                        case 4:
-                            int learnerCount = learnerList.size();
-                            courseList.listCourse();
+                        case 4:                    
+                            courseList.displayCourses();
                             break;
                         default:
                             System.out.println("Invalid choice.");
@@ -144,15 +161,17 @@ public class CourseProgramManagement {
                 case 4:
                     System.out.println("1. Search topic");
                     System.out.println("2. Search course");
-                    System.out.println("Enter your option: ");
+                    System.out.print("Enter your option: ");
                     int choice4 = sc.nextInt();
+                    sc.nextLine();
                     switch(choice4){
                         case 1:
                             
                             System.out.print("Enter name: ");
-                            String name = sc.nextLine().trim();
+                            String name4 = sc.nextLine();
                             
-                            topicList.searchByName(name);
+                            topicList.searchByName(name4);
+                            break;
                         case 2:
                             System.out.println("Search By Topic or Name");
                             System.out.print("Enter your option: ");
@@ -167,15 +186,42 @@ public class CourseProgramManagement {
                                 String foundName = sc.nextLine().trim();
                                 courseList.searchByName(foundName);
                             }
+                            break;
                             
                     }
                     break;
 
                 case 5:
-                    topicList.saveToFile("src/project3/topicData.txt");
-                    courseList.saveToFile("src/project3/courseData.txt");
-                    learnerList.saveToFile("src/project3/learnerData.txt");
+                    int choice5 ;
+                    System.out.println("1.Save Topic");
+                    System.out.println("2.Save Course");
+                    System.out.println("3.Save Learners");
+                    System.out.println("4.Save all");
+                    do{
+                        System.out.print("Enter your option: ");
+                        choice5 = sc.nextInt();
+                    }while(choice5 > 4 || choice5 < 1);
+                    switch(choice5){
+                        case 1:
+                            topicList.saveToFile("src/project3/topicData.txt");
+                            break;
+                        case 2:
+                            courseList.saveToFile("src/project3/courseData.txt");
+                            break;
+                        case 3:
+                            learnerList.saveToFile("src/project3/learnerData.txt");
+                            break;
+                        case 4:
+                            topicList.saveToFile("src/project3/topicData.txt");
+                            courseList.saveToFile("src/project3/courseData.txt");
+                            learnerList.saveToFile("src/project3/learnerData.txt");
+                            
+                    }
                     System.out.println("Save Successfully");
+                    
+                    
+                    
+                    
                     break;
 
                 case 6:

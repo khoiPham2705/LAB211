@@ -24,7 +24,8 @@ public class Course {
     public ArrayList<Learner> learners;
 
     public Course() {
-    }
+    this.learners = new ArrayList<>(); // Khởi tạo danh sách học viên
+}
 
     public Course(String code, String name, String type, String title, String beginDate, String endDate, String tuitionFee, String topic, int maxLearners) {
         this.code = code;
@@ -44,6 +45,15 @@ public class Course {
 
     public ArrayList<Learner> getLearners() {
         return learners;
+    }
+    public boolean addLearnerToCourse(Learner learner) {
+        if (learners.size() < maxLearners) {
+            learners.add(learner);
+            return true; // Learner added successfully
+        } else {
+            System.out.println("Cannot add learner. Maximum number of learners reached.");
+            return false; // Learner not added
+        }
     }
 
     public String getCode() {

@@ -15,6 +15,7 @@ public class Learner {
     String dateOfBirth;
     String score;
     String course;
+    
 
     public Learner() {
     }
@@ -66,6 +67,12 @@ public class Learner {
     public void setCourse(String course) {
         this.course = course;
     }
+
+    @Override
+    public String toString() {
+        return    code + "," + name + "," + dateOfBirth + "," + score + "," + course ;
+    }
+    
     
     
 }

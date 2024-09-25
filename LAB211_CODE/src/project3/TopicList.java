@@ -44,19 +44,32 @@ public class TopicList extends ArrayList<Topic> {
         do {
             System.out.print("Enter type(long or short)");
             type = sc.nextLine().trim().toLowerCase();
-        }  while (!type.equals("long") && !type.equals("short") && !type.isEmpty() == false);
-
+        } while (!type.equals("long") && !type.equals("short"));
 
         String title;
         System.out.print("Enter title: ");
         title = sc.nextLine();
 
         String duration;
-        System.out.print("Enter duration: ");
-        duration = sc.nextLine();
+        do {
+            System.out.print("Enter duration(slot): ");
+            duration = sc.nextLine();
+            if (isNumeric(duration) == false || Double.parseDouble(duration) < 0) {
+                System.out.println("invalid duration");
+            }
+        } while (isNumeric(duration) == false || Double.parseDouble(duration) < 0);
 
         this.add(new Topic(code, name, type, title, duration));
 
+    }
+
+    public boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true; // Nếu chuyển đổi thành công, đó là số
+        } catch (NumberFormatException e) {
+            return false; // Nếu xảy ra ngoại lệ, không phải số
+        }
     }
 
     public int searchCode(String code) {
@@ -87,6 +100,9 @@ public class TopicList extends ArrayList<Topic> {
         do {
             System.out.print("Enter new type (long or short): ");
             type = sc.nextLine().trim().toLowerCase();
+            if (type.isEmpty()) {
+                break;
+            }
         } while (!type.equals("long") && !type.equals("short"));
 
         System.out.print("Enter new title: ");
@@ -118,16 +134,16 @@ public class TopicList extends ArrayList<Topic> {
     public static boolean isBlank(String str) {
         return str == null || str.trim().isEmpty();
     }
-    public void deleteTopic(){
+
+    public void deleteTopic() {
         String code;
         System.out.print("Enter code: ");
         code = sc.nextLine();
         int pos = this.searchCode(code);
-        if(pos == -1){
+        if (pos == -1) {
             System.out.println("The topic does not exist");
             return;
-        }
-        else{
+        } else {
             System.out.println("Are you sure you want to delete the topic with Code " + code + "? (Yes or No):");
             String confirm = sc.nextLine().trim();
             if (confirm.equalsIgnoreCase("yes")) {
@@ -138,18 +154,16 @@ public class TopicList extends ArrayList<Topic> {
             }
         }
     }
-     public void listTopic() {
+
+    public void listTopic() {
         // Sắp xếp danh sách theo tên trước khi in ra
         Collections.sort(this, Comparator.comparing(Topic::getName));
         for (Topic topic : this) {
             System.out.println(topic);
         }
     }
-     
-     
-     
-     
-     public void searchByName(String name) {
+
+    public void searchByName(String name) {
         List<Topic> matchingNameTopic = new ArrayList<>();
         for (int i = 0; i < this.size(); i++) {
             if (this.get(i).getName().contains(name)) {
@@ -164,7 +178,8 @@ public class TopicList extends ArrayList<Topic> {
             }
         }
     }
-     public boolean saveToFile(String filename) {
+
+    public boolean saveToFile(String filename) {
         if (this.isEmpty()) {
             System.out.println("Empty topicList");
             return false;
@@ -186,6 +201,7 @@ public class TopicList extends ArrayList<Topic> {
         }
         return false;
     }
+
     public boolean loadFromFile(String filename) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -198,17 +214,14 @@ public class TopicList extends ArrayList<Topic> {
 
                 String[] data = line.split(",");
                 Topic prd = new Topic();
-                
+
                 prd.setCode(data[0]);
                 prd.setName(data[1]);
                 prd.setType(data[2]);
                 prd.setTitle(data[3]);
                 prd.setDuration(data[4]);
-                
 
-                
-
-                this.add(prd);               
+                this.add(prd);
             }
             return true;
         } catch (IOException e) {
@@ -218,5 +231,5 @@ public class TopicList extends ArrayList<Topic> {
         }
         return false;
     }
-     
+
 }

@@ -45,7 +45,8 @@ public class LearnerList extends ArrayList<Learner> {
 
     Course selectedCourse = courseList.get(courseIndex);
 
-    // Kiểm tra giới hạn học viên
+        
+        // Kiểm tra giới hạn học viên
     if (selectedCourse.getLearners().size() >= selectedCourse.getMaxLearners()) {
         System.out.println("The course has reached its maximum capacity.");
         return;
@@ -71,6 +72,8 @@ public class LearnerList extends ArrayList<Learner> {
 
     // Thêm học viên vào danh sách
     selectedCourse.learners.add(new Learner(code, name, dateOfBirth, score, courseCode));
+    
+    this.add(new Learner(code, name, dateOfBirth, score, courseCode));
     System.out.println("Learner added to the course.");
 }
 
@@ -139,10 +142,7 @@ public class LearnerList extends ArrayList<Learner> {
         String option;
 
         System.out.println("=== Update Learner Score ===");
-        System.out.println("1. Enter learner code and update score");
-
-        System.out.print("Choose an option: ");
-        option = sc.nextLine();
+        
 
         // Nhập mã học viên
         System.out.print("Enter learner code: ");
