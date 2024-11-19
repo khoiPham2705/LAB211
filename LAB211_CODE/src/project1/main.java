@@ -35,8 +35,9 @@ public class main {
             System.out.println("6. Print list products from the file. ");
             System.out.println("Others - Quit.  ");
             System.out.println("**************");
+            System.out.print("Enter your option: ");
             choice = scanner.nextInt();
-            scanner.nextLine();// Consume the newline left by nextInt()
+            scanner.nextLine();
             
             switch (choice) {
                 case 1:
@@ -44,7 +45,7 @@ public class main {
                     goBackMenu();
                     break;
                 case 2:
-                    System.out.println("Enter product name:");
+                    System.out.print("Enter product name:");
                     String name = scanner.nextLine().toUpperCase().trim();
                     List<Product> products = productList.searchName(name);
     
@@ -85,7 +86,7 @@ public class main {
     
     public static void goBackMenu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Do you want to go back to the main menu? (Yes or No):");
+        System.out.print("Do you want to go back to the main menu? (Yes or No):");
         String ch = sc.nextLine().trim();
         if (ch.equalsIgnoreCase("no")) {
             cont = false; 

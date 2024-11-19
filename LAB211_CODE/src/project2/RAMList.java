@@ -457,6 +457,11 @@ public class RAMList extends ArrayList<RAMItem> {
 
     // Tải dữ liệu từ file nhị phân
     public void loadActiveItemsFromFile(String fileName) {
+        File file = new File(fileName);
+        if (file.length() == 0) {
+            System.out.println("The file is empty. No data to load.");
+            return; // Kết thúc phương thức nếu file rỗng
+        }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             List<RAMItem> loadedItems = (List<RAMItem>) ois.readObject();
             this.clear();
